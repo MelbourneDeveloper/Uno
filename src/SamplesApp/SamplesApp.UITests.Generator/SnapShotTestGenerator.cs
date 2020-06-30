@@ -155,8 +155,11 @@ namespace Uno.Samples.UITest.Generator
 							}
 
 							builder.AppendLineInvariant("[global::SamplesApp.UITests.TestFramework.AutoRetry]");
-							using (builder.BlockInvariant($"public void {Sanitize(test.categories.First())}_{Sanitize(test.name)}()"))
+							builder.AppendLineInvariant("[global::NUnit.Framework.Timeout(15000)]");
+							var testName = $"{Sanitize(test.categories.First())}_{Sanitize(test.name)}";
+							using (builder.BlockInvariant($"public void {testName}()"))
 							{
+								builder.AppendLineInvariant($"Console.WriteLine(\"Running test [{testName}]\");");
 								builder.AppendLineInvariant($"Run(\"{test.symbol}\", waitForSampleControl: false);");
 							}
 						}
